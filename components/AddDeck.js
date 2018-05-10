@@ -3,32 +3,23 @@ import {
   View,
   Text,
   TextInput,
-  TouchableOpacity,
-  StyleSheet,
-  Platform
+  StyleSheet
 } from "react-native";
 import { NavigationActions } from "react-navigation";
 import { connect } from "react-redux";
-import { white, blue } from "../utils/colors";
-import { addDeck } from "../actions";
-import { saveDeckTitle } from "../utils/api";
+import { white } from "../utils/colors";
+import { createDeck } from "../actions";
+
+import ActionButton from "./ActionButton";
+
 class AddDeck extends Component {
   constructor(props) {
     super(props);
-    this.state = { title: "Deck title" };
+    this.state = { title: "" };
   }
 
   createDeck = () => {
-    const { title } = this.state;
-    this.props.dispatch(
-      addDeck({
-        [title]: {
-          title,
-          questions: []
-        }
-      })
-    );
-    saveDeckTitle(title);
+    this.props.addDeck(this.state);
     this.toHome();
   };
 
@@ -43,21 +34,13 @@ class AddDeck extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text>What is the title for your new deck?</Text>
+        <Text style={styles.title}>What is the title for your new deck?</Text>
         <TextInput
           style={styles.textInput}
           onChangeText={title => this.setState({ title })}
           value={this.state.title}
         />
-        {Platform.OS === "ios" ? (
-          <TouchableOpacity style={styles.iosBtn} onPress={this.createDeck}>
-            <Text style={{ color: white }}>Submit</Text>
-          </TouchableOpacity>
-        ) : (
-          <TouchableOpacity style={styles.androidBtn} onPress={this.createDeck}>
-            <Text>Submit</Text>
-          </TouchableOpacity>
-        )}
+        <ActionButton text="Submit" onPress={this.createDeck}/>
       </View>
     );
   }
@@ -68,7 +51,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: white,
     margin: 15,
-    padding: 10
+    padding: 10,
+    justifyContent: "center"
   },
   textInput: {
     padding: 10,
@@ -77,21 +61,17 @@ const styles = StyleSheet.create({
     borderColor: "gray",
     borderWidth: 1
   },
-
-  iosBtn: {
-    backgroundColor: blue,
-    borderRadius: 2,
-
-    padding: 10,
-    margin: 10,
-    alignItems: "center"
-  },
-  androidBtn: {
-    margin: 5,
-    backgroundColor: blue,
-    padding: 10,
-    borderRadius: 2
+  title: {
+    fontSize: 30
   }
 });
 
-export default connect()(AddDeck);
+const mapStateToProps = (state, ownProps) => {
+  return {};
+};
+
+const mapDispatchToProps = dispatch => ({
+  addDeck: data => dispatch(createDeck(data))
+});
+
+export default connect(mapStateToProps,mapDispatchToProps)(AddDeck);

@@ -1,15 +1,17 @@
 import React from "react";
 import { View, Text, Platform, StatusBar } from "react-native";
-import { createStore } from "redux";
+import { createStore, applyMiddleware, compose } from "redux";
 import { Provider } from "react-redux";
+import thunk from "redux-thunk";
 import reducer from "./reducers";
 import { TabNavigator, StackNavigator } from "react-navigation";
-
 
 import { Ionicons } from "@expo/vector-icons";
 import DeckList from "./components/DeckList";
 import AddDeck from "./components/AddDeck";
 import DeckView from "./components/DeckView";
+import AddCard from "./components/AddCard";
+import Quiz from "./components/Quiz";
 import { Constants } from "expo";
 import { white, blue } from "./utils/colors";
 function CustomStatusBar({ backgroundColor, ...props }) {
@@ -68,13 +70,35 @@ const MainNavigator = StackNavigator({
         backgroundColor: blue
       }
     }
+  },
+  AddCard: {
+    screen: AddCard,
+    navigationOptions: {
+      headerTintColor: white,
+      headerStyle: {
+        backgroundColor: blue
+      }
+    }
+  },
+  Quiz: {
+    screen: Quiz,
+    navigationOptions: {
+      headerTintColor: white,
+      headerStyle: {
+        backgroundColor: blue
+      }
+    }
   }
 });
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+const store = createStore(reducer, composeEnhancers(applyMiddleware(thunk)));
 
 export default class App extends React.Component {
   render() {
     return (
-      <Provider store={createStore(reducer)}>
+      <Provider store={store}>
         <View style={{ flex: 1 }}>
           <CustomStatusBar backgroundColor={blue} barStyle="light-content" />
           <MainNavigator />

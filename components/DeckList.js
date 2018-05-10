@@ -7,26 +7,20 @@ import {
   TouchableOpacity
 } from "react-native";
 import { connect } from "react-redux";
-import { getDecks } from "../utils/api";
-import { receiveDecks } from "../actions";
+import { getDecks } from "../actions";
 import { white, blue } from "../utils/colors";
 class DeckList extends Component {
   componentDidMount() {
-    this.getData();
+    this.props.getDecks()
   }
 
-  getData = () => {
-    const { dispatch } = this.props;
-    getDecks().then(decks => dispatch(receiveDecks(decks)));
-  };
-
+  
   render() {
     const { decks } = this.props;
 
     return (
       <ScrollView style={styles.container}>
         {Object.keys(decks).map(deck => {
-          console.log(decks[deck]);
           const { title, questions } = decks[deck];
           return (
             <TouchableOpacity
@@ -38,8 +32,8 @@ class DeckList extends Component {
                 })
               }
             >
-              <Text>{title}</Text>
-              <Text>{questions.length}</Text>
+              <Text style={styles.title}>{title}</Text>
+              <Text style={styles.cardCount}>{questions.length} Cards</Text>
             </TouchableOpacity>
           );
         })}
@@ -59,16 +53,27 @@ const styles = StyleSheet.create({
     height: 150,
     borderWidth: 1,
     padding: 10,
-    flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "center",
     alignItems: "center"
+  },
+  title: {
+    fontSize:30
+  },
+  cardCount: {
+    fontSize:20
   }
 });
 
-function mapStateToProps(decks) {
+const mapStateToProps = (decks, ownProps) => {
   return {
     decks
   };
-}
+};
 
-export default connect(mapStateToProps)(DeckList);
+
+
+const mapDispatchToProps = dispatch => ({
+  getDecks: data => dispatch(getDecks())
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(DeckList);
