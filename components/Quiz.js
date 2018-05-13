@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { View, ScrollView, Text, StyleSheet } from "react-native";
 import { connect } from "react-redux";
+
 import { white, blue, red, green, purple } from "../utils/colors";
 import ActionButton from "./ActionButton";
 
@@ -21,13 +22,11 @@ class Quiz extends Component {
     this.setState({ score: 0, cardIndex: 0, display: "question" });
   };
 
-  returnToDeckList = () => {
-    this.props.navigation.navigate("DeckList");
-  };
 
   incorrectAnswer = () => {
     this.setState({ cardIndex: this.state.cardIndex + 1, display: "question" });
   };
+
   correctAnswer = () => {
     this.setState({
       cardIndex: this.state.cardIndex + 1,
@@ -135,18 +134,15 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: white,
     margin: 15,
-    padding: 10,
-    justifyContent: "space-between"
+    padding: 10
   },
   card: {
     padding: 10,
-    height: 400,
     margin: 20,
     alignItems: "center"
   },
   completionView: {
     alignItems: "center",
-
     justifyContent: "space-between"
   },
   text: {

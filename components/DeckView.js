@@ -3,6 +3,10 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import ActionButton from "./ActionButton";
 import { connect } from "react-redux";
 import { white, blue, lightPurp } from "../utils/colors";
+import {
+  clearLocalNotification,
+  setLocalNotification
+} from "../utils/notifcations";
 class DeckView extends Component {
   static navigationOptions = ({ navigation }) => {
     const { deckId } = navigation.state.params;
@@ -19,6 +23,7 @@ class DeckView extends Component {
 
   startQuiz = () => {
     const { deckId } = this.props;
+    clearLocalNotification().then(setLocalNotification)
     this.props.navigation.navigate("Quiz", {
       deckId
     });

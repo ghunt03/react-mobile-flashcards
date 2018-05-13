@@ -14,6 +14,8 @@ import AddCard from "./components/AddCard";
 import Quiz from "./components/Quiz";
 import { Constants } from "expo";
 import { white, blue } from "./utils/colors";
+import { setLocalNotification } from "./utils/notifcations";
+
 function CustomStatusBar({ backgroundColor, ...props }) {
   return (
     <View style={{ backgroundColor, height: Constants.statusBarHeight }}>
@@ -96,6 +98,9 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(reducer, composeEnhancers(applyMiddleware(thunk)));
 
 export default class App extends React.Component {
+  componentDidMount() {
+    setLocalNotification();
+  }
   render() {
     return (
       <Provider store={store}>
