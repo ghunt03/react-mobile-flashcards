@@ -13,6 +13,7 @@ export default function decks(state = {}, action) {
         ...action.deck
       }
     case ADD_CARD:
+      console.log(action)
       return {
         ...state,
         [action.deck]: {

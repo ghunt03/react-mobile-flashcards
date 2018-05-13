@@ -29,12 +29,12 @@ export const addDeck = deck => ({
 });
 
 export const createCard = ({ deckId, question, answer }) => dispatch =>
-  FlashCardsAPI.saveCard(deckId, question, answer).then(newCard =>
-    dispatch(addCard(deckId, newCard))
+  FlashCardsAPI.saveCard(deckId, question, answer).then(question =>
+    dispatch(addCard(deckId, question))
   );
 
-export const addCard = (deck, card) => ({
+export const addCard = (deck, question) => ({
   type: ADD_CARD,
   deck,
-  card
+  question
 });

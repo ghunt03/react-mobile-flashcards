@@ -1,6 +1,6 @@
 import React from "react";
 import { Text, TouchableOpacity, StyleSheet, Platform } from "react-native";
-import { blue, white } from "../utils/colors";
+import { blue, white, red } from "../utils/colors";
 export default function ActionButton({
   text,
   onPress,
