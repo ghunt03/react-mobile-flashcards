@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text, TextInput, StyleSheet } from "react-native";
+import { View, Text, TextInput, KeyboardAvoidingView, Alert, StyleSheet } from "react-native";
 import ActionButton from "./ActionButton";
 import { connect } from "react-redux";
 import { createCard } from "../actions";
@@ -14,31 +14,39 @@ class AddCard extends Component {
   }
 
   createCard = () => {
-    const { deckId } = this.props;
-    this.props.addCard(this.state);
-    this.props.navigation.navigate("DeckView", {
-      deckId
-    })
+    const { deckId, question, answer } = this.state;
+    if (!question && !answer) {
+      Alert.alert(
+        "Mobile Flash Cards",
+        "A Question and Answer is required to add the card to the deck"
+      );
+    } else {
+      this.props.addCard(this.state).then(data => {
+        this.props.navigation.navigate("DeckView", {
+          deckId
+        });
+      });
+    }
   };
 
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.title}>Add Card to Deck</Text>
-        <Text>Question</Text>
-        <TextInput
-          style={styles.textInput}
-          onChangeText={question => this.setState({ question })}
-          value={this.state.question}
-        />
-        <Text>Answer</Text>
-        <TextInput
-          style={styles.textInput}
-          onChangeText={answer => this.setState({ answer })}
-          value={this.state.answer}
-        />
-        <ActionButton text="Submit" onPress={this.createCard} />
-      </View>
+      <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
+          <Text style={styles.title}>Add Card to Deck</Text>
+          <Text>Question</Text>
+          <TextInput
+            style={styles.textInput}
+            onChangeText={question => this.setState({ question })}
+            value={this.state.question}
+          />
+          <Text>Answer</Text>
+          <TextInput
+            style={styles.textInput}
+            onChangeText={answer => this.setState({ answer })}
+            value={this.state.answer}
+          />
+          <ActionButton text="Submit" onPress={this.createCard} />
+      </KeyboardAvoidingView>
     );
   }
 }

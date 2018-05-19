@@ -3,7 +3,8 @@ import {
   View,
   Text,
   TextInput,
-  StyleSheet
+  StyleSheet, 
+  Alert
 } from "react-native";
 import { NavigationActions } from "react-navigation";
 import { connect } from "react-redux";
@@ -18,17 +19,30 @@ class AddDeck extends Component {
     this.state = { title: "" };
   }
 
+  static navigationOptions = ({ navigation }) => {
+		return {
+			title: 'New Deck'
+		}
+	}
+
   createDeck = () => {
-    this.props.addDeck(this.state);
-    this.toHome();
+    const { title } = this.state
+    if (!title) {
+      Alert.alert('Mobile Flash Cards', 'The title for the deck is required')
+    } else {
+      this.props.addDeck(title).then((data)=>{
+        this.props.navigation.navigate("DeckView", {
+          deckId: title
+        })
+      });
+    
+    }
   };
 
-  toHome = () => {
-    this.props.navigation.dispatch(
-      NavigationActions.back({
-        key: "AddDeck"
-      })
-    );
+  toDeck = (title) => {
+    this.props.navigation.navigate("DeckView", {
+      deckId: title
+    })
   };
 
   render() {

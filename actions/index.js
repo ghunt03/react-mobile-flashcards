@@ -12,7 +12,7 @@ export const receiveDecks = decks => ({
   decks
 });
 
-export const createDeck = ({ title }) => dispatch =>
+export const createDeck = (title) => dispatch =>
   FlashCardsAPI.saveDeckTitle(title).then(() => {
     const deck = {
       [title]: {
@@ -20,6 +20,7 @@ export const createDeck = ({ title }) => dispatch =>
         questions: []
       }
     };
+    console.log("d", deck);
     return dispatch(addDeck(deck));
   });
 

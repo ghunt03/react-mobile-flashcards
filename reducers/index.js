@@ -8,22 +8,20 @@ export default function decks(state = {}, action) {
         ...action.decks
       };
     case ADD_DECK:
+      console.log(action);
       return {
         ...state,
         ...action.deck
-      }
+      };
     case ADD_CARD:
-      console.log(action)
       return {
         ...state,
         [action.deck]: {
           ...state[action.deck],
           questions: [...state[action.deck].questions, action.question]
         }
-      }
+      };
     default:
       return state;
   }
 }
-
-
