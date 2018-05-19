@@ -1,4 +1,4 @@
-# React Nanodegree Project 2 - Mobile Flashcards
+# React Nanodegree Project 3 - Mobile Flashcards
 ## Overview
 The Mobile Flash Cards application is a mobile app built with React Native, that allows you to store decks of question and answer cards.
 
