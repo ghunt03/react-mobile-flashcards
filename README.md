@@ -11,3 +11,8 @@ To install and run the app:
 
 ## Notes
 Presently the app has been tested in the iOS simulator
+
+## Acknowledgments
+This app was created with the following:
+- [create-react-native-app](https://github.com/react-community/create-react-native-app)
+- [Expo](https://expo.io/)
